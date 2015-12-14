@@ -13,16 +13,16 @@ NL
 		|	'\n' '\r'  //Improbable
 		|	'\r'
 		|	'\n'
-		)
+		) -> channel(HIDDEN)
 	;
 
 
-WS
-	:	(	' '
-		|	'\t'   
-		|	NL
-		)
-	;
+WS  :   ( ' '
+        | '\t'
+        | '\r'
+        | '\n'
+        ) -> channel(HIDDEN)
+    ;
 
 COMMENT
 	:	'--'
@@ -99,8 +99,8 @@ DIESE
 
 POINTS
     :
-	':'
-	;
+    ':'
+    ;
 
 FOUR_POINTS
     :
@@ -167,15 +167,6 @@ DIGIT
 	:	'0'..'9'
 	;
 
-ALPHA
-	:	'a'..'z' 
-	|	'A'..'Z'
-	|	'_'
-	//For Unicode compatibility (from 0000 to 00ff)
-	|	'\u00C0' .. '\u00D6'
-	|	'\u00D8' .. '\u00F6'
-	|	'\u00F8' .. '\u00FF'
-	;
 
 INT
     :	(DIGIT)+
@@ -186,9 +177,6 @@ FLOAT
 		('.' (DIGIT)+ )?
 	;
 
-NAME
-:	(ALPHA) (ALPHA | DIGIT)*
-	;
 
 ESC
 	:	'\\'
@@ -216,13 +204,6 @@ ESC
 		)
 	;
 
-STRING
-:	'\''
-		(	ESC
-		|	~('\\'|'\'')
-		)*
-		'\''
-	;
 
 RECOVER
 	:	(~(	'0'..'9' | 'A'..'Z' | 'a'..'z' | '_'
@@ -242,10 +223,7 @@ RECOVER
 		))*
 	;
 
-CONTEXT
-    :
-    'context'
-    ;
+CONTEXT : 'context';
 
 INV
     :
@@ -382,3 +360,24 @@ FALSE
     'false'
     ;
 
+NAME
+:	(ALPHA) (ALPHA | DIGIT)*
+	;
+
+ALPHA
+	:'a'..'z'
+	|'A'..'Z'
+	|'_'
+	//For Unicode compatibility (from 0000 to 00ff)
+	|'\u00C0' .. '\u00D6'
+	|'\u00D8' .. '\u00F6'
+	|'\u00F8' .. '\u00FF'
+	;
+
+STRING
+:	'\''
+		(ESC
+		|~('\\'|'\'')
+		)*
+		'\''
+	;
