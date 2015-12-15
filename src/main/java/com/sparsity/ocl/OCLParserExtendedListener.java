@@ -10,6 +10,5 @@ public class OCLParserExtendedListener extends OCLParserBaseListener {
     @Override
     public void enterConstraint(OCLParser.ConstraintContext ctx) {
         System.out.println(ctx.getText());
-
     }
 }

@@ -29,7 +29,7 @@ COMMENT
 		(~(	'\r'
 		|	'\n'
 		))*
-		(NL)?
+		(NL)? -> channel(COMMENTS)
 	;
 
 LPAREN
@@ -163,11 +163,6 @@ GE
 	'>='
 	;
 
-DIGIT
-	:	'0'..'9'
-	;
-
-
 INT
     :	(DIGIT)+
 	;
@@ -175,6 +170,10 @@ INT
 FLOAT
     :	(DIGIT)+
 		('.' (DIGIT)+ )?
+	;
+
+DIGIT
+	:	'0'..'9'
 	;
 
 
@@ -238,6 +237,11 @@ PRE
 POST
     :
     'post'
+    ;
+
+BODY
+    :
+    'body'
     ;
 
 LET
@@ -340,9 +344,24 @@ SET
     'Set'
     ;
 
+SORTEDSET
+    :
+    'SortedSet'
+    ;
+
 BAG
     :
     'Bag'
+    ;
+
+TUPLE
+    :
+    'Tuple'
+    ;
+
+TUPLETYPE
+    :
+    'TupleType'
     ;
 
 SEQUENCE

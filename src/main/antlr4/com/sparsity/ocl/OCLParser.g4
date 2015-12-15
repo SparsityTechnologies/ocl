@@ -29,7 +29,7 @@ operationContext
 	;
 
 formalParameterList
-	: formalParameter (SEMI formalParameter)*
+	: formalParameter (COMA formalParameter)*
 	;
 
 formalParameter
@@ -41,7 +41,7 @@ constraintBody
 	;
 
 stereotype
-	: (INV | PRE | POST)
+	: (INV | PRE | POST | BODY)
 	;
 
 classifierType
@@ -54,35 +54,38 @@ fileExpression
 
 expression
 	: letExpression
-	| logicalExpression
+	| arithmeticExpression
+	| logicExpression
+	| tupleExpression
 	;
 
 letExpression
 	: LET NAME (POINTS typeName)? EQ expression IN expression
 	;
 
-logicalExpression
-	: relationalExpression ((AND|OR|XOR|IMPLIES) relationalExpression)*
+logicExpression
+	:
+	  arithmeticExpression
+	| NOT logicExpression
+	| logicExpression (GT|LT|GE|LE) logicExpression
+	| logicExpression (EQ|NE) logicExpression
+	| logicExpression AND logicExpression
+	| logicExpression OR logicExpression
+	| logicExpression XOR logicExpression
+	| logicExpression IMPLIES logicExpression
 	;
 
-relationalExpression
-	: additiveExpression ((EQ|GT|LT|GE|LE|NE) additiveExpression)?
-	;
+tupleExpression
+    :
+    TUPLE LCURLY NAME EQ expression (COMA NAME EQ expression)* RCURLY
+    ;
 
-additiveExpression
-	: multiplicativeExpression ((PLUS|MINUS) multiplicativeExpression )*
-	;
-
-multiplicativeExpression
-	: unaryExpression ((STAR|DIV) unaryExpression)*
-	;
-
-unaryExpression
-	: ((NOT|MINUS))? postfixExpression
-	;
-
-postfixExpression
-	: primaryExpression((POINT|ARROW) featureCall)*
+arithmeticExpression
+	:
+	  primaryExpression((POINT|ARROW) featureCall)*
+	| MINUS arithmeticExpression
+	| arithmeticExpression (STAR|DIV) arithmeticExpression
+	| arithmeticExpression (PLUS|MINUS) arithmeticExpression
 	;
 
 primaryExpression
@@ -174,6 +177,7 @@ oclType
 	|   INTEGER
 	|   STRINGTEXT
 	|   BOOLEAN
+	|   tupleType
 	|	oclCollection LPAREN typeName RPAREN
 	)
 	;
@@ -181,10 +185,15 @@ oclType
 oclCollection
 	: (	COLLECTION
 	|   SET
+	|   SORTEDSET
 	|   BAG
 	|   SEQUENCE
 	)
 	;
+tupleType
+    :
+    TUPLETYPE LPAREN (formalParameterList) RPAREN
+    ;
 
 pathName
 	: NAME
