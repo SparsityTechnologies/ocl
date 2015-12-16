@@ -29,7 +29,7 @@ COMMENT
 		(~(	'\r'
 		|	'\n'
 		))*
-		(NL)? -> channel(COMMENTS)
+		(NL)? -> channel(HIDDEN)
 	;
 
 LPAREN

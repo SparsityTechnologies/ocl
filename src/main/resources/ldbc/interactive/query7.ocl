@@ -1,0 +1,26 @@
+context System::RecentLikes(
+
+personId:String):
+
+Set(TupleType(id:String, firstName:String, lastName:String, messageId:String, content:String,  latency:long, isNew: Boolean))
+
+
+body:
+
+let person:Person = Person.allInstances()->select(p| p.code = personId) in
+
+person.message->collect(like)->sortedBy(creationDate)->collect(l| Tuple{
+
+id = l.personId,
+
+firstName = l.person.firstName,
+
+lastName = l.person.lastName,
+
+messageId = l.message.id,
+
+content = l.message.content,
+
+latency = l.creationDate - l.message.creationDate,
+
+isNew = person.friends -> includes(l.person)})

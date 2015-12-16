@@ -15,7 +15,7 @@ options
 	tokenVocab = OCLLexer;
 }
 
-constraint : contextDeclaration (constraintBody)+;
+oclStatement : contextDeclaration (stereotype (NAME)? POINTS expression)+;
 
 contextDeclaration : CONTEXT (operationContext | classifierContext );
 
@@ -36,10 +36,6 @@ formalParameter
 	: NAME POINTS typeName
 	;
 
-constraintBody
-	: stereotype (NAME)? POINTS expression
-	;
-
 stereotype
 	: (INV | PRE | POST | BODY)
 	;
@@ -54,7 +50,6 @@ fileExpression
 
 expression
 	: letExpression
-	| arithmeticExpression
 	| logicExpression
 	| tupleExpression
 	;

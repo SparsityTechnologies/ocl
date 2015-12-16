@@ -1,4 +1,4 @@
-package com.sparsity.ocl.ast.expression;
+package com.sparsity.ocl.ast;
 
 import com.sparsity.ocl.ast.TypedElement;
 

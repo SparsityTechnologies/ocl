@@ -1,6 +1,8 @@
 package com.sparsity.ocl;
 
 
+import com.sparsity.ocl.ast.OclAstNode;
+import com.sparsity.ocl.ast.Operation;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.junit.Test;
@@ -25,10 +27,8 @@ public class OCLTest {
             }
         });
 
-        OCLParser.ConstraintContext constraintContext = parser.constraint();
-        ParseTreeWalker walker = new ParseTreeWalker();
-        OCLParserExtendedListener listener = new OCLParserExtendedListener();
-        walker.walk(listener, constraintContext);
-
+        OCLParser.OclStatementContext oclStatement = parser.oclStatement();
+        OCLASTGeneratorVisitor visitor = new OCLASTGeneratorVisitor();
+        Operation operation = (Operation)visitor.visitOclStatement(oclStatement);
     }
 }

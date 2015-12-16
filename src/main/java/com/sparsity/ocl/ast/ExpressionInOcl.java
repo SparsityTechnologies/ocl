@@ -1,19 +1,16 @@
 package com.sparsity.ocl.ast;
 
-import com.sparsity.ocl.ast.expression.OclExpression;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by aprat on 15/12/15.
  */
-public class ExpressionInOcl {
+public class ExpressionInOcl extends Expression {
 
-    public ExpressionInOcl( OclExpression oclExpression) {
+    private OclExpression bodyExpression = null;
 
+    public ExpressionInOcl( OclExpression bodyExpression) {
+        this.bodyExpression = bodyExpression;
     }
-
-
-    private OclExpression oclExpression = null;
-//    private Variable va
-
-
 }
