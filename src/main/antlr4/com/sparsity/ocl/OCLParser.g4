@@ -86,9 +86,18 @@ arithmeticExpression
 primaryExpression
 	: litteralCollection
 	| litteral
-	| featureCall
+	| classifier POINT featureCall
+	| variable
 	| LPAREN expression RPAREN
 	| ifExpression
+	;
+
+variable
+    : NAME
+    ;
+
+classifier
+	: pathName
 	;
 
 litteralCollection
@@ -105,6 +114,8 @@ expressionListOrRange
 
 litteral
 	: number
+	| STRING
+	| bool
 	| DIESE NAME
 	;
 
@@ -114,19 +125,25 @@ ifExpression
 	
 qualifiers
 	: LSQUARE actualParameterList RSQUARE
-	{
-	}
 	;
 
 featureCall
-	: pathName
-	 ((qualifiers))?
+    : operationCall
+    | propertyCall
+    ;
+
+operationCall
+    : NAME
 	 (AROBAPRE)?
-	 (	qualifiers
-	 |	parameters
-	 )?
-	;
-	
+	 (parameters )
+    ;
+
+propertyCall
+    :NAME ((qualifiers))?
+    ;
+
+
+
 parameters
     :
     LPAREN
@@ -145,8 +162,8 @@ declarator
 	;
 	
 declaration
-	: NAME
-	(COMA NAME)*
+	: variable
+	(COMA variable)*
 	(POINTS typeName)?
 	(EQ expression)?
 	;
@@ -198,8 +215,6 @@ pathName
 number
 	: INT
 	| FLOAT
-	| STRING
-	| bool
 	| oclType
 	;
 

@@ -12,12 +12,22 @@ public class Operation extends OclAstNode {
     protected List<Constraint> pre = null;
     protected List<Constraint> post = null;
     protected Constraint body = null;
+    protected String name = null;
 
 
-    public Operation() {
+    public Operation( String operationName ) {
+        this.name = operationName;
         this.parameters = new ArrayList<Parameter>();
         this.pre = new ArrayList<Constraint>();
         this.post = new ArrayList<Constraint>();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void addParameter(Parameter parameter) {
