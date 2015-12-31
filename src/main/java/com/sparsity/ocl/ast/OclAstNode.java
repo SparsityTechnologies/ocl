@@ -10,7 +10,10 @@ public class OclAstNode {
     private String nodeType = null;
 
     public OclAstNode(){
-        nodeType = this.getClass().getName();
+        String className = this.getClass().getName();
+        int index = className.lastIndexOf('.');
+        nodeType = className.substring(index+1,className.length());
+
     }
 
     public void accept(OclAstPrinter printer) {

@@ -100,10 +100,10 @@ public class OCLASTGeneratorVisitor extends OCLParserBaseVisitor<OclAstNode> {
         System.err.println("Visit arithmeticExpression not implemented ");
         if(arithmeticExpression.primaryExpression() != null) {
             OclExpression exp = (OclExpression)visitPrimaryExpression(arithmeticExpression.primaryExpression());
-            for(OCLParser.FeatureCallContext featureCallContext : arithmeticExpression.featureCall()) {
-                FeatureCallExp fc = (FeatureCallExp)visitFeatureCall(featureCallContext);
-                fc.setSource(exp);
-                exp = fc;
+            for(OCLParser.CallExpContext callExpContext : arithmeticExpression.callExp()) {
+                CallExp callExp = (CallExp)visitCallExp(callExpContext);
+                callExp.setSource(exp);
+                exp = callExp;
             }
             return exp;
         }
@@ -114,29 +114,30 @@ public class OCLASTGeneratorVisitor extends OCLParserBaseVisitor<OclAstNode> {
     public OclAstNode visitPrimaryExpression( OCLParser.PrimaryExpressionContext primaryExpression ) {
         System.err.println("Visit primaryExpression not implemented ");
         if(primaryExpression.classifier() != null) {
-            if(primaryExpression.featureCall().operationCall() != null ) {
-                return visitOperationCall(primaryExpression.featureCall().operationCall());
+            if(primaryExpression.callExp().featureCallExp() != null ) {
+                return visitFeatureCallExp(primaryExpression.callExp().featureCallExp());
             }
-            return visitPropertyCall(primaryExpression.featureCall().propertyCall());
+            return visitLoopExp(primaryExpression.callExp().loopExp());
         }
-
         return null;
     }
 
     @Override
-    public OclAstNode visitOperationCall(OCLParser.OperationCallContext operationCall) {
+    public OclAstNode visitLoopExp(OCLParser.LoopExpContext loopExpContext ) {
+        return visitIteratorExp(loopExpContext.iteratorExp());
+    }
+
+    @Override
+    public OclAstNode visitOperationCallExp(OCLParser.OperationCallExpContext operationCall) {
         System.err.println("Visit operationCall not implemented ");
         OperationCallExp operation = new OperationCallExp();
         operation.setReferredOperation(operationCall.NAME().getText());
         List<OclExpression> arguments = new ArrayList<OclExpression>();
-        if(operationCall.parameters().actualParameterList() != null) {
-            for(OCLParser.ExpressionContext expression : operationCall.parameters().actualParameterList().expression()) {
+        if(operationCall.argumentList() != null) {
+            for(OCLParser.ExpressionContext expression : operationCall.argumentList().expression()) {
                 OclExpression argument = (OclExpression)visitExpression(expression);
                 arguments.add(argument);
             }
-        } else {
-            OclExpression declarator = (OclExpression)visitDeclarator(operationCall.parameters().declarator());
-            arguments.add(declarator);
         }
         operation.setArguments(arguments);
         return operation;
@@ -145,13 +146,46 @@ public class OCLASTGeneratorVisitor extends OCLParserBaseVisitor<OclAstNode> {
     @Override
     public OclAstNode visitDeclarator(OCLParser.DeclaratorContext declaratorContext ) {
         System.err.println("Visit Declarator not implemented");
+        return null;
+    }
 
+    public List<Variable> visitVariables(OCLParser.DeclarationContext declarationContext ) {
+        System.err.println("Visit Declarator not implemented");
+        List<Variable> vars = new ArrayList<Variable>();
+        OclExpression initExpression = null;
+        Type type = null;
+        if(declarationContext.typeName() != null ) type = new Type(declarationContext.getText());
+        if(declarationContext.expression() != null) initExpression = (OclExpression)visitExpression(declarationContext.expression());
+        for(OCLParser.VariableContext varContext : declarationContext.variable()) {
+            Variable var = new Variable(varContext.NAME().getText());
+            if(initExpression != null) {
+                var.setInitExpression(initExpression);
+            }
+            if(type != null) {
+                var.setType(type);
+            }
+            vars.add(var);
+        }
+        return vars;
+    }
+
+    @Override
+    public OclAstNode visitPropertyCallExp(OCLParser.PropertyCallExpContext propertyCall) {
+        System.err.println("Visit propertyCall not implemented ");
         return null;
     }
 
     @Override
-    public OclAstNode visitPropertyCall(OCLParser.PropertyCallContext propertyCall) {
-        System.err.println("Visit propertyCall not implemented ");
-        return null;
+    public OclAstNode visitIteratorExp(OCLParser.IteratorExpContext iteratorExpCtx) {
+        System.err.println("Visit iteratorExp not implemented ");
+        IteratorExp iteratorExp = new IteratorExp((OclExpression)visitExpression(iteratorExpCtx.expression()));
+        iteratorExp.setName(iteratorExpCtx.NAME().getText());
+        List<Variable> vars = new ArrayList<Variable>();
+        for(OCLParser.DeclarationContext declarationContext : iteratorExpCtx.declarator().declaration()) {
+           List<Variable> auxVars = visitVariables(declarationContext);
+           vars.addAll(auxVars);
+        }
+        iteratorExp.setIterator(vars);
+        return iteratorExp;
     }
 }

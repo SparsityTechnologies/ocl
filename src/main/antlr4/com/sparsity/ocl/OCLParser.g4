@@ -77,7 +77,7 @@ tupleExpression
 
 arithmeticExpression
 	:
-	  primaryExpression((POINT|ARROW) featureCall)*
+	  primaryExpression ((POINT|ARROW) callExp)*
 	| MINUS arithmeticExpression
 	| arithmeticExpression (STAR|DIV) arithmeticExpression
 	| arithmeticExpression (PLUS|MINUS) arithmeticExpression
@@ -86,7 +86,7 @@ arithmeticExpression
 primaryExpression
 	: litteralCollection
 	| litteral
-	| classifier POINT featureCall
+	| (classifier POINT)? callExp
 	| variable
 	| LPAREN expression RPAREN
 	| ifExpression
@@ -124,35 +124,47 @@ ifExpression
 	;
 	
 qualifiers
-	: LSQUARE actualParameterList RSQUARE
+	: LSQUARE argumentList RSQUARE
 	;
 
-featureCall
-    : operationCall
-    | propertyCall
+callExp
+	: featureCallExp
+	| loopExp
+	;
+
+loopExp
+	: iteratorExp
+	;
+
+iteratorExp
+    : NAME LPAREN declarator expression RPAREN
     ;
 
-operationCall
-    : NAME
+featureCallExp
+    : operationCallExp
+    | propertyCallExp
+    ;
+
+operationCallExp
+    : pathName? NAME
 	 (AROBAPRE)?
-	 (parameters )
+	 LPAREN argumentList RPAREN
     ;
 
-propertyCall
+propertyCallExp
     :NAME ((qualifiers))?
     ;
-
-
 
 parameters
     :
     LPAREN
  	(
 	declarator (expression)?
-	|	actualParameterList
+	| argumentList
 	)
 	RPAREN
 	;
+
 
 declarator
 	:
@@ -168,7 +180,7 @@ declaration
 	(EQ expression)?
 	;
 
-actualParameterList
+argumentList
 	: (expression (COMA expression)*)?
 	;
 
