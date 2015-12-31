@@ -86,10 +86,14 @@ arithmeticExpression
 primaryExpression
 	: litteralCollection
 	| litteral
-	| (classifier POINT)? callExp
-	| variable
+	| typeExp
+	| callExp
 	| LPAREN expression RPAREN
 	| ifExpression
+	;
+
+	typeExp
+	: typeName
 	;
 
 variable

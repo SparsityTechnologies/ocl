@@ -82,22 +82,61 @@ public class OCLASTGeneratorVisitor extends OCLParserBaseVisitor<OclAstNode> {
 
     @Override
     public OclAstNode visitTupleExpression( OCLParser.TupleExpressionContext tupleExpression ) {
-        System.err.println("Visit tupleExpression not implemented ");
+        System.err.println("tuple expression not yet handled ");
+        assert false;
         return null;
     }
 
     @Override
     public OclAstNode visitLogicExpression( OCLParser.LogicExpressionContext logicExpression ) {
-        System.err.println("Visit logicExpression not implemented ");
+//        System.err.println("Visit logicExpression not implemented ");
         if(logicExpression.arithmeticExpression() != null) {
             return visitArithmeticExpression(logicExpression.arithmeticExpression());
         }
-        return null;
+
+        if(logicExpression.NOT() != null) {
+            OperationCallExp operationCallExp = new OperationCallExp();
+            operationCallExp.setReferredOperation("NOT");
+            operationCallExp.setSource((OclExpression)visitLogicExpression(logicExpression.logicExpression(0)));
+            return operationCallExp;
+        }
+
+        String operationName = null;
+        if(logicExpression.GT() != null) {
+            operationName = "GT";
+        } else if(logicExpression.LT() != null) {
+            operationName = "LT";
+        } else if(logicExpression.GE() != null) {
+            operationName = "GE";
+        } else if(logicExpression.GE() != null) {
+            operationName = "LE";
+        } else if(logicExpression.EQ() != null) {
+            operationName = "EQ";
+        } else if(logicExpression.NE() != null) {
+            operationName = "NE";
+        } else  if(logicExpression.AND() != null) {
+            operationName = "AND";
+        } else if(logicExpression.OR() != null) {
+            operationName = "OR";
+        } else if(logicExpression.XOR() != null) {
+            operationName = "XOR";
+        } else if(logicExpression.IMPLIES() != null) {
+            operationName = "IMPLIES";
+        }
+        assert operationName != null;
+
+        OperationCallExp operationCallExp = new OperationCallExp();
+        operationCallExp.setReferredOperation(operationName);
+        operationCallExp.setSource((OclExpression)visitLogicExpression(logicExpression.logicExpression(0)));
+        List<OclExpression> arguments = new ArrayList<OclExpression>();
+        arguments.add((OclExpression)visitLogicExpression(logicExpression.logicExpression(1)));
+        operationCallExp.setArguments(arguments);
+        return operationCallExp;
     }
 
     @Override
     public OclAstNode visitArithmeticExpression( OCLParser.ArithmeticExpressionContext arithmeticExpression ) {
-        System.err.println("Visit arithmeticExpression not implemented ");
+        //System.err.println("Visit arithmeticExpression not implemented ");
         if(arithmeticExpression.primaryExpression() != null) {
             OclExpression exp = (OclExpression)visitPrimaryExpression(arithmeticExpression.primaryExpression());
             for(OCLParser.CallExpContext callExpContext : arithmeticExpression.callExp()) {
@@ -107,18 +146,67 @@ public class OCLASTGeneratorVisitor extends OCLParserBaseVisitor<OclAstNode> {
             }
             return exp;
         }
-        return null;
+
+        if(arithmeticExpression.MINUS() != null && arithmeticExpression.arithmeticExpression().size() == 1) {
+            OperationCallExp operationCallExp = new OperationCallExp();
+            operationCallExp.setReferredOperation("MINUS");
+            operationCallExp.setSource((OclExpression)visitArithmeticExpression(arithmeticExpression.arithmeticExpression(0)));
+            return operationCallExp;
+        }
+
+        String operationName = null;
+        if(arithmeticExpression.STAR() != null) {
+            operationName = "STAR";
+        } else if(arithmeticExpression.DIV() != null) {
+            operationName = "DIC";
+        } else if(arithmeticExpression.PLUS() != null) {
+            operationName = "PLUS";
+        } else if(arithmeticExpression.MINUS() != null) {
+            operationName = "MINUS";
+        }
+
+        assert operationName != null;
+
+        OperationCallExp operationCallExp = new OperationCallExp();
+        operationCallExp.setReferredOperation(operationName);
+        operationCallExp.setSource((OclExpression)visitArithmeticExpression(arithmeticExpression.arithmeticExpression(0)));
+        List<OclExpression> arguments = new ArrayList<OclExpression>();
+        arguments.add((OclExpression)visitArithmeticExpression(arithmeticExpression.arithmeticExpression(1)));
+        operationCallExp.setArguments(arguments);
+        return operationCallExp;
     }
 
     @Override
-    public OclAstNode visitPrimaryExpression( OCLParser.PrimaryExpressionContext primaryExpression ) {
-        System.err.println("Visit primaryExpression not implemented ");
-        if(primaryExpression.classifier() != null) {
-            if(primaryExpression.callExp().featureCallExp() != null ) {
-                return visitFeatureCallExp(primaryExpression.callExp().featureCallExp());
-            }
-            return visitLoopExp(primaryExpression.callExp().loopExp());
+    public OclAstNode visitPrimaryExpression( OCLParser.PrimaryExpressionContext primaryExpressionCtx ) {
+        if(primaryExpressionCtx.callExp() != null ) {
+            return visitCallExp(primaryExpressionCtx.callExp());
         }
+
+        if(primaryExpressionCtx.typeExp() != null ) {
+            return visitTypeExp(primaryExpressionCtx.typeExp());
+        }
+
+        if(primaryExpressionCtx.litteral() != null ) {
+            System.err.println("litteral expression not yet handled");
+            assert false;
+        }
+
+        if(primaryExpressionCtx.litteralCollection() != null ) {
+            System.err.println("litteralCollection expression not yet handled");
+            assert false;
+        }
+
+        if(primaryExpressionCtx.ifExpression() != null ) {
+            System.err.println("ifExpression expression not yet handled");
+            assert false;
+        }
+
+        if(primaryExpressionCtx.LPAREN() != null ) {
+            return visitExpression(primaryExpressionCtx.expression());
+        }
+
+        System.out.println("Invalid grammar? Possibly unhandled path.");
+        assert false;
         return null;
     }
 
@@ -129,7 +217,6 @@ public class OCLASTGeneratorVisitor extends OCLParserBaseVisitor<OclAstNode> {
 
     @Override
     public OclAstNode visitOperationCallExp(OCLParser.OperationCallExpContext operationCall) {
-        System.err.println("Visit operationCall not implemented ");
         OperationCallExp operation = new OperationCallExp();
         operation.setReferredOperation(operationCall.NAME().getText());
         List<OclExpression> arguments = new ArrayList<OclExpression>();
@@ -146,11 +233,11 @@ public class OCLASTGeneratorVisitor extends OCLParserBaseVisitor<OclAstNode> {
     @Override
     public OclAstNode visitDeclarator(OCLParser.DeclaratorContext declaratorContext ) {
         System.err.println("Visit Declarator not implemented");
+        assert false;
         return null;
     }
 
     public List<Variable> visitVariables(OCLParser.DeclarationContext declarationContext ) {
-        System.err.println("Visit Declarator not implemented");
         List<Variable> vars = new ArrayList<Variable>();
         OclExpression initExpression = null;
         Type type = null;
@@ -170,14 +257,18 @@ public class OCLASTGeneratorVisitor extends OCLParserBaseVisitor<OclAstNode> {
     }
 
     @Override
-    public OclAstNode visitPropertyCallExp(OCLParser.PropertyCallExpContext propertyCall) {
-        System.err.println("Visit propertyCall not implemented ");
-        return null;
+    public OclAstNode visitPropertyCallExp(OCLParser.PropertyCallExpContext propertyCallCtx) {
+        PropertyCallExp propertyCallExp = new PropertyCallExp();
+        propertyCallExp.setName(propertyCallCtx.NAME().getText());
+        if(propertyCallCtx.qualifiers() != null) {
+            System.err.println("Qualifiers on property call not yet supported");
+            assert false;
+        }
+        return propertyCallExp;
     }
 
     @Override
     public OclAstNode visitIteratorExp(OCLParser.IteratorExpContext iteratorExpCtx) {
-        System.err.println("Visit iteratorExp not implemented ");
         IteratorExp iteratorExp = new IteratorExp((OclExpression)visitExpression(iteratorExpCtx.expression()));
         iteratorExp.setName(iteratorExpCtx.NAME().getText());
         List<Variable> vars = new ArrayList<Variable>();
@@ -187,5 +278,13 @@ public class OCLASTGeneratorVisitor extends OCLParserBaseVisitor<OclAstNode> {
         }
         iteratorExp.setIterator(vars);
         return iteratorExp;
+    }
+
+    @Override
+    public OclAstNode visitTypeExp( OCLParser.TypeExpContext typeExpCtx) {
+        Type type = (Type)visitTypeName(typeExpCtx.typeName());
+        TypeExp typeExp = new TypeExp();
+        typeExp.setReferredType(type);
+        return typeExp;
     }
 }
