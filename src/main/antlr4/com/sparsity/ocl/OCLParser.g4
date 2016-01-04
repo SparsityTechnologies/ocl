@@ -72,7 +72,7 @@ logicExpression
 
 tupleExpression
     :
-    TUPLE LCURLY NAME EQ expression (COMA NAME EQ expression)* RCURLY
+    TUPLE LCURLY declaration (COMA declaration)* RCURLY
     ;
 
 arithmeticExpression
@@ -173,13 +173,12 @@ parameters
 declarator
 	:
 	declaration
-	(SEMI declaration)*
+	(COMA declaration)*
 	PIPE
 	;
 	
 declaration
 	: variable
-	(COMA variable)*
 	(POINTS typeName)?
 	(EQ expression)?
 	;

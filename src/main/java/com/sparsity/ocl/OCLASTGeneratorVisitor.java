@@ -81,10 +81,18 @@ public class OCLASTGeneratorVisitor extends OCLParserBaseVisitor<OclAstNode> {
     }
 
     @Override
-    public OclAstNode visitTupleExpression( OCLParser.TupleExpressionContext tupleExpression ) {
-        System.err.println("tuple expression not yet handled ");
-        assert false;
-        return null;
+    public OclAstNode visitTupleExpression( OCLParser.TupleExpressionContext tupleExpressionCtx ) {
+        TupleLiteralExp tupleLiteralExp = new TupleLiteralExp();
+        List<TupleLiteralPart> parts = new ArrayList<TupleLiteralPart>();
+        for(OCLParser.DeclarationContext decl : tupleExpressionCtx.declaration()) {
+            Variable var = (Variable)visitDeclaration(decl);
+            TupleLiteralPart part = new TupleLiteralPart();
+            part.setName(var.getName());
+            part.setType(var.getType());
+            parts.add(part);
+        }
+        tupleLiteralExp.setParts(parts);
+        return tupleLiteralExp;
     }
 
     @Override
@@ -237,23 +245,13 @@ public class OCLASTGeneratorVisitor extends OCLParserBaseVisitor<OclAstNode> {
         return null;
     }
 
-    public List<Variable> visitVariables(OCLParser.DeclarationContext declarationContext ) {
-        List<Variable> vars = new ArrayList<Variable>();
+    public OclAstNode visitDeclaration(OCLParser.DeclarationContext declarationContext ) {
         OclExpression initExpression = null;
         Type type = null;
-        if(declarationContext.typeName() != null ) type = new Type(declarationContext.getText());
-        if(declarationContext.expression() != null) initExpression = (OclExpression)visitExpression(declarationContext.expression());
-        for(OCLParser.VariableContext varContext : declarationContext.variable()) {
-            Variable var = new Variable(varContext.NAME().getText());
-            if(initExpression != null) {
-                var.setInitExpression(initExpression);
-            }
-            if(type != null) {
-                var.setType(type);
-            }
-            vars.add(var);
-        }
-        return vars;
+        Variable var = new Variable(declarationContext.variable().NAME().getText());
+        if(declarationContext.typeName() != null ) var.setType(new Type(declarationContext.getText()));
+        if(declarationContext.expression() != null) var.setInitExpression((OclExpression)visitExpression(declarationContext.expression()));
+        return var;
     }
 
     @Override
@@ -273,8 +271,8 @@ public class OCLASTGeneratorVisitor extends OCLParserBaseVisitor<OclAstNode> {
         iteratorExp.setName(iteratorExpCtx.NAME().getText());
         List<Variable> vars = new ArrayList<Variable>();
         for(OCLParser.DeclarationContext declarationContext : iteratorExpCtx.declarator().declaration()) {
-           List<Variable> auxVars = visitVariables(declarationContext);
-           vars.addAll(auxVars);
+           Variable var = (Variable)visitDeclaration(declarationContext);
+           vars.add(var);
         }
         iteratorExp.setIterator(vars);
         return iteratorExp;
