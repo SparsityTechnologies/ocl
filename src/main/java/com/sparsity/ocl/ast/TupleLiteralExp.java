@@ -8,17 +8,17 @@ import java.util.List;
  */
 public class TupleLiteralExp extends LiteralExp {
 
-    protected List<TupleLiteralPart> parts = null;
+    protected List<Variable> parts = null;
 
     public TupleLiteralExp() {
-        parts = new ArrayList<TupleLiteralPart>();
+        parts = new ArrayList<Variable>();
     }
 
-    public List<TupleLiteralPart> getParts() {
+    public List<Variable> getParts() {
         return parts;
     }
 
-    public void setParts(List<TupleLiteralPart> parts) {
+    public void setParts(List<Variable> parts) {
         this.parts = parts;
     }
 }

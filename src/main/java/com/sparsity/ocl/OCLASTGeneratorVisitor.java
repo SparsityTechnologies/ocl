@@ -83,13 +83,10 @@ public class OCLASTGeneratorVisitor extends OCLParserBaseVisitor<OclAstNode> {
     @Override
     public OclAstNode visitTupleExpression( OCLParser.TupleExpressionContext tupleExpressionCtx ) {
         TupleLiteralExp tupleLiteralExp = new TupleLiteralExp();
-        List<TupleLiteralPart> parts = new ArrayList<TupleLiteralPart>();
+        List<Variable> parts = new ArrayList<Variable>();
         for(OCLParser.DeclarationContext decl : tupleExpressionCtx.declaration()) {
             Variable var = (Variable)visitDeclaration(decl);
-            TupleLiteralPart part = new TupleLiteralPart();
-            part.setName(var.getName());
-            part.setType(var.getType());
-            parts.add(part);
+            parts.add(var);
         }
         tupleLiteralExp.setParts(parts);
         return tupleLiteralExp;
