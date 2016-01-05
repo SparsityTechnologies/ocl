@@ -2,7 +2,7 @@ context System::RecentLikes(
 
 personId:String):
 
-Set(TupleType(id:String, firstName:String, lastName:String, messageId:String, content:String,  latency:long, isNew: Boolean))
+Set(Tuple(id:String, firstName:String, lastName:String, messageId:String, content:String,  latency:long, isNew: Boolean))
 
 
 body:

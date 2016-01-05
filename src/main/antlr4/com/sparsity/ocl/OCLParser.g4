@@ -84,8 +84,8 @@ arithmeticExpression
 	;
 
 primaryExpression
-	: litteralCollection
-	| litteral
+	: literalCollection
+	| literal
 	| typeExp
 	| callExp
 	| LPAREN expression RPAREN
@@ -104,7 +104,7 @@ classifier
 	: pathName
 	;
 
-litteralCollection
+literalCollection
 	: oclCollection LCURLY (expressionListOrRange)? RCURLY
 	;
 
@@ -116,7 +116,7 @@ expressionListOrRange
 	 )
 	;
 
-litteral
+literal
 	: number
 	| STRING
 	| bool
@@ -219,7 +219,7 @@ oclCollection
 	;
 tupleType
     :
-    TUPLETYPE LPAREN (formalParameterList) RPAREN
+    TUPLE LPAREN (formalParameterList) RPAREN
     ;
 
 pathName

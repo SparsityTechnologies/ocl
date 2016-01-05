@@ -4,7 +4,7 @@ startDate: Date,
 duration: Integer, 
 countryX: String, 
 countryY: String)
-:SortedSet(TupleType (id: String, firstName: String, lastName: String, count_x: Integer, count_y: Integer, count:
+:SortedSet(Tuple (id: String, firstName: String, lastName: String, count_x: Integer, count_y: Integer, count:
 Integer)) 
 body:
 let person:Person = Person.allInstances()->select(p| p.code = personCode) in

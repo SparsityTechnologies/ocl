@@ -194,12 +194,11 @@ public class OCLASTGeneratorVisitor extends OCLParserBaseVisitor<OclAstNode> {
             return visitTypeExp(primaryExpressionCtx.typeExp());
         }
 
-        if(primaryExpressionCtx.litteral() != null ) {
-            System.err.println("litteral expression not yet handled");
-            assert false;
+        if(primaryExpressionCtx.literal() != null ) {
+            return visitLiteral(primaryExpressionCtx.literal());
         }
 
-        if(primaryExpressionCtx.litteralCollection() != null ) {
+        if(primaryExpressionCtx.literalCollection() != null ) {
             System.err.println("litteralCollection expression not yet handled");
             assert false;
         }
@@ -214,6 +213,24 @@ public class OCLASTGeneratorVisitor extends OCLParserBaseVisitor<OclAstNode> {
         }
 
         System.out.println("Invalid grammar? Possibly unhandled path.");
+        assert false;
+        return null;
+    }
+
+    @Override
+    public OclAstNode visitLiteral(OCLParser.LiteralContext literalCtx) {
+        if(literalCtx.bool() != null) {
+            return new BooleanLiteralExp(Boolean.parseBoolean(literalCtx.bool().getText()));
+        }
+
+        if(literalCtx.number().FLOAT() != null) {
+            return new RealLiteralExp(Double.parseDouble(literalCtx.number().FLOAT().getText()));
+        }
+
+        if(literalCtx.number().INT() != null) {
+            return new IntegerLiteralExp(Integer.parseInt(literalCtx.number().INT().getText()));
+        }
+        System.err.println("Unhandled literal");
         assert false;
         return null;
     }
