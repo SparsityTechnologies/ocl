@@ -85,10 +85,31 @@ public class OCLTest {
     }
 
     @Test
+    public void ldbcQuery1() throws Exception {
+        printHeader("Testing LDBC Interactive Query 1");
+        testQuery(convertStreamToString(
+                getClass().getResourceAsStream("/ldbc/interactive/query1.ocl")));
+    }
+
+    @Test
+    public void ldbcQuery2() throws Exception {
+        printHeader("Testing LDBC Interactive Query 2");
+        testQuery(convertStreamToString(
+                getClass().getResourceAsStream("/ldbc/interactive/query2.ocl")));
+    }
+
+    @Test
     public void ldbcQuery3() throws Exception {
         printHeader("Testing LDBC Interactive Query 3");
         testQuery(convertStreamToString(
                 getClass().getResourceAsStream("/ldbc/interactive/query3.ocl")));
+    }
+
+    @Test
+    public void ldbcQuery4() throws Exception {
+        printHeader("Testing LDBC Interactive Query 4");
+        testQuery(convertStreamToString(
+                getClass().getResourceAsStream("/ldbc/interactive/query4.ocl")));
     }
 
     @Test
@@ -99,9 +120,51 @@ public class OCLTest {
     }
 
     @Test
+    public void ldbcQuery6() throws Exception {
+        printHeader("Testing LDBC Interactive Query 6");
+        testQuery(convertStreamToString(
+                getClass().getResourceAsStream("/ldbc/interactive/query6.ocl")));
+    }
+
+    @Test
     public void ldbcQuery7() throws Exception {
         printHeader("Testing LDBC Interactive Query 7");
         testQuery(convertStreamToString(
                 getClass().getResourceAsStream("/ldbc/interactive/query7.ocl")));
+    }
+
+    @Test
+    public void ldbcQuery8() throws Exception {
+        printHeader("Testing LDBC Interactive Query 8");
+        testQuery(convertStreamToString(
+                getClass().getResourceAsStream("/ldbc/interactive/query8.ocl")));
+    }
+
+    @Test
+    public void ldbcQuery9() throws Exception {
+        printHeader("Testing LDBC Interactive Query 9");
+        testQuery(convertStreamToString(
+                getClass().getResourceAsStream("/ldbc/interactive/query9.ocl")));
+    }
+
+    @Test
+    public void ldbcQuery10() throws Exception {
+        printHeader("Testing LDBC Interactive Query 10");
+        testQuery(convertStreamToString(
+                getClass().getResourceAsStream("/ldbc/interactive/query10.ocl")));
+    }
+
+    @Test
+    public void ldbcQuery11() throws Exception {
+        printHeader("Testing LDBC Interactive Query 11");
+        testQuery(convertStreamToString(
+                getClass().getResourceAsStream("/ldbc/interactive/query11.ocl")));
+    }
+
+    @Test
+    public void ldbcQuery12() throws Exception {
+        printHeader("Testing LDBC Interactive Query 12");
+        testQuery(convertStreamToString(
+                getClass().getResourceAsStream("/ldbc/interactive/query12.ocl")));
     }
 }
