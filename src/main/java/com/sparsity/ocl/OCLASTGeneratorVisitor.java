@@ -191,6 +191,10 @@ public class OCLASTGeneratorVisitor extends OCLParserBaseVisitor<OclAstNode> {
             return visitTypeExp(primaryExpressionCtx.typeExp());
         }
 
+        if(primaryExpressionCtx.variable() != null ) {
+            return visitVariable(primaryExpressionCtx.variable());
+        }
+
         if(primaryExpressionCtx.literal() != null ) {
             return visitLiteral(primaryExpressionCtx.literal());
         }
@@ -233,6 +237,30 @@ public class OCLASTGeneratorVisitor extends OCLParserBaseVisitor<OclAstNode> {
     }
 
     @Override
+    public OclAstNode visitVariable(OCLParser.VariableContext variableCtx) {
+        VariableExp var = new VariableExp(variableCtx.getText());
+        return var;
+    }
+
+    @Override
+    public OclAstNode visitCallExp(OCLParser.CallExpContext callExpCtx) {
+        if(callExpCtx.loopExp() != null) return visitLoopExp(callExpCtx.loopExp());
+        if(callExpCtx.featureCallExp() != null) return visitFeatureCallExp(callExpCtx.featureCallExp());
+        System.out.println("Unhandled path at callExpCtx");
+        assert false;
+        return null;
+    }
+
+    @Override
+    public OclAstNode visitFeatureCallExp(OCLParser.FeatureCallExpContext featureCallExpCtx) {
+        if(featureCallExpCtx.operationCallExp() != null) return visitOperationCallExp(featureCallExpCtx.operationCallExp());
+        if(featureCallExpCtx.propertyCallExp() != null)  return visitPropertyCallExp(featureCallExpCtx.propertyCallExp());
+        System.out.println("Unhandled path at featureCallExp");
+        assert false;
+        return null;
+    }
+
+    @Override
     public OclAstNode visitLoopExp(OCLParser.LoopExpContext loopExpContext ) {
         return visitIteratorExp(loopExpContext.iteratorExp());
     }
@@ -260,8 +288,6 @@ public class OCLASTGeneratorVisitor extends OCLParserBaseVisitor<OclAstNode> {
     }
 
     public OclAstNode visitDeclaration(OCLParser.DeclarationContext declarationContext ) {
-        OclExpression initExpression = null;
-        Type type = null;
         Variable var = new Variable(declarationContext.variable().NAME().getText());
         if(declarationContext.typeName() != null ) var.setType(new Type(declarationContext.getText()));
         if(declarationContext.expression() != null) var.setInitExpression((OclExpression)visitExpression(declarationContext.expression()));
@@ -271,7 +297,7 @@ public class OCLASTGeneratorVisitor extends OCLParserBaseVisitor<OclAstNode> {
     @Override
     public OclAstNode visitPropertyCallExp(OCLParser.PropertyCallExpContext propertyCallCtx) {
         PropertyCallExp propertyCallExp = new PropertyCallExp();
-        propertyCallExp.setName(propertyCallCtx.NAME().getText());
+        propertyCallExp.setReferredProperty(propertyCallCtx.NAME().getText());
         if(propertyCallCtx.qualifiers() != null) {
             System.err.println("Qualifiers on property call not yet supported");
             assert false;

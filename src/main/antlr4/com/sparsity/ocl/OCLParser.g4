@@ -86,6 +86,7 @@ arithmeticExpression
 primaryExpression
 	: literalCollection
 	| literal
+	| variable
 	| typeExp
 	| callExp
 	| LPAREN expression RPAREN
