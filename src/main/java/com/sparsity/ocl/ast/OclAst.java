@@ -14,4 +14,5 @@ public class OclAst {
     }
 
     private OclAstNode rootNode;
+
 }

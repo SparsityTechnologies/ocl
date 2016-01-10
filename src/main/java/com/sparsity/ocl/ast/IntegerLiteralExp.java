@@ -14,4 +14,9 @@ public class IntegerLiteralExp extends NumericLiteralExp {
     public int getIntegerSymbol() {
         return integerSymbol;
     }
+
+    @Override
+    public void accept(OclAstVisitor visitor) {
+        visitor.visit(this);
+    }
 }

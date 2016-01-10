@@ -14,4 +14,9 @@ public class BooleanLiteralExp extends LiteralExp {
     public Boolean getBooleanSymbol() {
         return booleanSymbol;
     }
+
+    @Override
+    public void accept(OclAstVisitor visitor) {
+        visitor.visit(this);
+    }
 }

@@ -13,4 +13,9 @@ public class PropertyCallExp extends NavigationCallExp  {
     public void setReferredProperty(String referredProperty) {
         this.referredProperty = referredProperty;
     }
+
+    @Override
+    public void accept(OclAstVisitor visitor) {
+        visitor.visit(this);
+    }
 }

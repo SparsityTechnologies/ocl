@@ -8,4 +8,9 @@ public class IteratorExp extends LoopExp {
     public IteratorExp(OclExpression body) {
         super(body);
     }
+
+    @Override
+    public void accept(OclAstVisitor visitor) {
+        visitor.visit(this);
+    }
 }

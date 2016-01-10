@@ -16,4 +16,9 @@ public class RealLiteralExp extends NumericLiteralExp {
     public double getRealSymbol() {
         return realSymbol;
     }
+
+    @Override
+    public void accept(OclAstVisitor visitor) {
+        visitor.visit(this);
+    }
 }

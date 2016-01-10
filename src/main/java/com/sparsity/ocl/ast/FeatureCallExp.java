@@ -5,4 +5,8 @@ package com.sparsity.ocl.ast;
  */
 public class FeatureCallExp extends CallExp {
 
+    @Override
+    public void accept(OclAstVisitor visitor) {
+        visitor.visit(this);
+    }
 }

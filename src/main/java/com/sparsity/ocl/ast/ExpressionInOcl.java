@@ -27,4 +27,9 @@ public class ExpressionInOcl extends Expression {
     public void setBodyExpression(OclExpression bodyExpression) {
         this.bodyExpression = bodyExpression;
     }
+
+    @Override
+    public void accept(OclAstVisitor visitor) {
+        visitor.visit(this);
+    }
 }

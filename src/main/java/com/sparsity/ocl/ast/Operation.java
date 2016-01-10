@@ -1,5 +1,7 @@
 package com.sparsity.ocl.ast;
 
+import com.sparsity.ocl.ast.printer.OclAstPrinter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,5 +74,16 @@ public class Operation extends OclAstNode {
 
     public void setBody(Constraint body) {
         this.body = body;
+    }
+
+    @Override
+    public void accept(OclAstPrinter printer) {
+        System.err.println("Unimplemented visitor");
+        assert false;
+    }
+
+    @Override
+    public void accept(OclAstVisitor visitor) {
+        visitor.visit(this);
     }
 }

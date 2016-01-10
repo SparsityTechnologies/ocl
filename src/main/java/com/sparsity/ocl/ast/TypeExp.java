@@ -13,4 +13,9 @@ public class TypeExp extends OclExpression {
     public void setReferredType(Type referredType) {
         this.referredType = referredType;
     }
+
+    @Override
+    public void accept(OclAstVisitor visitor) {
+        visitor.visit(this);
+    }
 }

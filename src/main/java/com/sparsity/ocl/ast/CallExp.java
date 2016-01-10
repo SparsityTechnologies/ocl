@@ -13,4 +13,9 @@ public class CallExp extends OclExpression {
     public void setSource(OclExpression source) {
         this.source = source;
     }
+
+    @Override
+    public void accept(OclAstVisitor visitor) {
+        visitor.visit(this);
+    }
 }

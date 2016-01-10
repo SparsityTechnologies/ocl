@@ -14,4 +14,9 @@ public class StringLiteralExp extends LiteralExp {
         return stringSymbol;
     }
 
+    @Override
+    public void accept(OclAstVisitor visitor) {
+        visitor.visit(this);
+    }
+
 }

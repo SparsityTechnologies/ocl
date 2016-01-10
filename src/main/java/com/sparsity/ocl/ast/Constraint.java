@@ -25,4 +25,9 @@ public class Constraint extends OclAstNode {
     public void setExpression(Expression expression) {
         this.expression = expression;
     }
+
+    @Override
+    public void accept(OclAstVisitor visitor) {
+        visitor.visit(this);
+    }
 }

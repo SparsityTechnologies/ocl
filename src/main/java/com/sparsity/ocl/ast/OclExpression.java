@@ -13,4 +13,9 @@ public class OclExpression extends TypedElement {
     public OclExpression(String name) {
         super(name);
     }
+
+    @Override
+    public void accept(OclAstVisitor visitor) {
+        visitor.visit(this);
+    }
 }

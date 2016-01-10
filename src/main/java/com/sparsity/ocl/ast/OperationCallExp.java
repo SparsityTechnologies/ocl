@@ -30,4 +30,9 @@ public class OperationCallExp extends FeatureCallExp {
     public void setArguments(List<OclExpression> arguments) {
         this.arguments = arguments;
     }
+
+    @Override
+    public void accept(OclAstVisitor visitor) {
+        visitor.visit(this);
+    }
 }

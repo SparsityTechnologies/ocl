@@ -10,4 +10,9 @@ public class Expression extends OclAstNode {
     public void accept( OclAstPrinter printer ) {
         printer.visit(this);
     }
+
+    @Override
+    public void accept(OclAstVisitor visitor) {
+        visitor.visit(this);
+    }
 }

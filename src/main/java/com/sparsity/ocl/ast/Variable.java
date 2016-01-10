@@ -24,4 +24,9 @@ public class Variable extends TypedElement {
     public void setInitExpression(OclExpression initExpression) {
         this.initExpression = initExpression;
     }
+
+    @Override
+    public void accept(OclAstVisitor visitor) {
+        visitor.visit(this);
+    }
 }

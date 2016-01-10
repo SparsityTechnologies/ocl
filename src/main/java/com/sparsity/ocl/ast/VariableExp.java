@@ -17,4 +17,9 @@ public class VariableExp extends OclExpression {
     public void setReferedVariable(String referedVariable) {
         this.referedVariable = referedVariable;
     }
+
+    @Override
+    public void accept(OclAstVisitor visitor) {
+        visitor.visit(this);
+    }
 }

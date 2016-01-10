@@ -21,4 +21,9 @@ public class TupleLiteralExp extends LiteralExp {
     public void setParts(List<Variable> parts) {
         this.parts = parts;
     }
+
+    @Override
+    public void accept(OclAstVisitor visitor) {
+        visitor.visit(this);
+    }
 }

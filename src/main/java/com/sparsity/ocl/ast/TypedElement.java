@@ -27,4 +27,9 @@ public class TypedElement extends NamedElement {
     public void setType(Type type) {
         this.type = type;
     }
+
+    @Override
+    public void accept(OclAstVisitor visitor) {
+        visitor.visit(this);
+    }
 }

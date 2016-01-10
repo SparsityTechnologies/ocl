@@ -34,4 +34,9 @@ public class LetExpression extends OclExpression {
     public void setInExpression(OclExpression inExpression) {
         this.inExpression = inExpression;
     }
+
+    @Override
+    public void accept(OclAstVisitor visitor) {
+        visitor.visit(this);
+    }
 }

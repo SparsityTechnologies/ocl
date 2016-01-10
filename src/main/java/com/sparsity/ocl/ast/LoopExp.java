@@ -31,4 +31,9 @@ public class LoopExp extends CallExp {
     public void setBody(OclExpression body) {
         this.body = body;
     }
+
+    @Override
+    public void accept(OclAstVisitor visitor) {
+        visitor.visit(this);
+    }
 }
