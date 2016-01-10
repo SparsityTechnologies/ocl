@@ -1,0 +1,5 @@
+== Object Constraint Language AST (OCL)
+
+image:https://travis-ci.org/SparsityTechnologies/ocl.svg?branch=master["Build Status", link="https://travis-ci.org/SparsityTechnologies/ocl"]
+
+This is a library to parse OCL expressions according the OCL metamodel specification.
