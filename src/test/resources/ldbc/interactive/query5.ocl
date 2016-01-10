@@ -1,0 +1,25 @@
+context System::Groups(
+
+personId: String,
+
+date: Date)
+
+:Set(Tuple(title: String, count: Integer))
+
+
+body:
+
+let person:Person = Person.allInstances()->select(p| p.code = personId) in
+
+let candidates:Set(Person)=person.friend->union(person.friend -> collect(friend))->asSet() ->excluding(person) in
+
+candidates->collect(p| p.member->select(m | m.joinDate > date)->collect(m| m.forum))->asSet()
+
+
+->collect(f | Tuple {
+
+title = f.title,
+
+count= f.person->intersection(candidates)->count()
+
+})->sortedBy(count, -title)->subOrderedSet(1,20)

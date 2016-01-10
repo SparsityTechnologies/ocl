@@ -1,0 +1,19 @@
+context System::RecentPostsAndCommentsByYourFriends (
+personId: String,
+date: Date
+)
+: SortedSet(Tuple ( id: String, firstName: String, lastName: String, messageId: String, messageContent: String,
+messageCreationDate: Date))
+
+body:
+let person:Person = Person.allInstances()->select(p| p.code = personId) in
+
+person.friends-> collect(f | f.message -> select(m|  m.creationDate < date))->collect(m | Tuple {
+id = m.creator.id,
+firstName = m.creator.firstName,
+lastName = m.creator.lastName,
+messageId = m.id,
+messageContent = m.content,
+messageCreationDate = m.creationDate})
+->sortedBy(-creationDate, id)
+->subOrderedSet(1,20)

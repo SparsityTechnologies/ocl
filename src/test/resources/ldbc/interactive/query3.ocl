@@ -1,0 +1,22 @@
+context System:: FriendsAndFriendsOfFriends (
+personId: String, 
+startDate: Date, 
+duration: Integer, 
+countryX: String, 
+countryY: String)
+:SortedSet(Tuple (id: String, firstName: String, lastName: String, count_x: Integer, count_y: Integer, count:
+Integer)) 
+body:
+let person:Person = Person.allInstances()->select(p| p.code = personCode) in
+
+person.friend -> union (person.friend -> collect (friend)) ->asSet() -> excluding(person)->
+select (p | p.message -> exists (m1, m2 | m1<>m2 and m1.country.name = countryX and m2.country.name = countryY and
+m1.creationDate.between( startDate, duration) and m2.creationDate.between(startDate, duration)) and
+p.city.country.name<> countryX and p.city.country.name <> countryY) 
+-> collect (p | Tuple { 
+id = p.id, firstname = p.firstName, 
+count = p.message->size(), 
+count_x = p.messages -> select (m | m.country.name = country_x) -> size(), 
+count_y = p.messages -> select (m | m.country.name = country_y)
+}
+)->sortedBy(count,personId)->subOrderedSet(1,20)
