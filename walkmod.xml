@@ -2,6 +2,9 @@
 <walkmod>
     <chain name="default">
         <transformation type="dead-code-cleaner"/>
+        <transformation type="license-applier">
+            <param name="licenseFile">src/main/license-header.txt</param>
+        </transformation>
         <writer path="src/main/java" type="javalang:string-writer"/>
     </chain>
 </walkmod>
