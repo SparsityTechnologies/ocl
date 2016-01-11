@@ -13,6 +13,7 @@
  limitations under the License.*/
 package com.sparsity.ocl.ast;
 
+import com.sparsity.ocl.visitors.GenericOclAstVisitor;
 import com.sparsity.ocl.visitors.VoidOclAstVisitor;
 
 /**
@@ -31,6 +32,8 @@ public abstract class OclAstNode {
 
     public  abstract <A> void accept(VoidOclAstVisitor<A> visitor, A arg);
 
+    public  abstract <A, T> T accept(GenericOclAstVisitor<T, A> visitor, A arg);
+    
     public String getNodeType() {
         return nodeType;
     }

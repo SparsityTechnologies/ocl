@@ -16,6 +16,7 @@ package com.sparsity.ocl.ast;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sparsity.ocl.visitors.GenericOclAstVisitor;
 import com.sparsity.ocl.visitors.VoidOclAstVisitor;
 
 /**
@@ -93,4 +94,10 @@ public class Operation extends OclAstNode {
     public <A> void accept(VoidOclAstVisitor<A> visitor, A arg) {
         visitor.visit(this, arg);
     }
+
+	@Override
+	public <A, T> T accept(GenericOclAstVisitor<T, A> visitor, A arg) {
+		// TODO Auto-generated method stub
+		return visitor.visit(this, arg);
+	}
 }
