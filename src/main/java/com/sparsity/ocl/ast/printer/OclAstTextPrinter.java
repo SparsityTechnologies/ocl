@@ -14,11 +14,12 @@
 package com.sparsity.ocl.ast.printer;
 
 import com.sparsity.ocl.ast.*;
+import com.sparsity.ocl.visitors.VoidOclAstVisitor;
 
 /**
  * Created by aprat on 17/12/15.
  */
-public class OclAstTextPrinter  implements OclAstPrinter {
+public class OclAstTextPrinter<T>  implements VoidOclAstVisitor<T> {
 
     StringBuffer strBuffer;
     StringBuffer indentBuffer;
@@ -49,7 +50,7 @@ public class OclAstTextPrinter  implements OclAstPrinter {
         return strBuffer.toString();
     }
 
-    public void visit(Operation operation) {
+    public void visit(Operation operation, T context) {
         print("Operation: "+operation.getName()+"\n");
         addIndent();
         print("parameters: \n");
@@ -57,7 +58,7 @@ public class OclAstTextPrinter  implements OclAstPrinter {
         addIndent();
         for(int i = 0; i < numParams; ++i) {
             Parameter param = operation.getParameter(i);
-            param.accept(this);
+            param.accept(this, context);
         }
         removeIndent();
         int numPre = operation.numPre();
@@ -65,7 +66,7 @@ public class OclAstTextPrinter  implements OclAstPrinter {
             Constraint pre = operation.getPre(i);
             println("pre:");
             addIndent();
-            pre.accept(this);
+            pre.accept(this, context);
             removeIndent();
         }
         removeIndent();
@@ -76,7 +77,7 @@ public class OclAstTextPrinter  implements OclAstPrinter {
             println("post:");
             Constraint post = operation.getPost(i);
             addIndent();
-            post.accept(this);
+            post.accept(this, context);
             removeIndent();
         }
         removeIndent();
@@ -86,21 +87,21 @@ public class OclAstTextPrinter  implements OclAstPrinter {
         Constraint body = operation.getBody();
         if(body != null) {
             addIndent();
-            body.accept(this);
+            body.accept(this, context);
             removeIndent();
         }
         removeIndent();
 
     }
 
-    public void visit(Constraint operation) {
+    public void visit(Constraint operation, T context) {
         println("Constraint:");
         addIndent();
-        operation.getExpression().accept(this);
+        operation.getExpression().accept(this, context);
         removeIndent();
     }
 
-    public void visit(Parameter parameter) {
+    public void visit(Parameter parameter, T context) {
         println("parameter:");
         addIndent();
         println("Name: "+parameter.getName());
@@ -108,19 +109,19 @@ public class OclAstTextPrinter  implements OclAstPrinter {
         removeIndent();
     }
 
-    public void visit(TypedElement typedElement) {
+    public void visit(TypedElement typedElement, T context) {
 
     }
 
-    public void visit(LetExpression letExpression) {
+    public void visit(LetExpression letExpression, T context) {
         println("LetExpression:");
         addIndent();
-        letExpression.getVariable().accept(this);
+        letExpression.getVariable().accept(this, context);
 //        letExpression.getInExpression().accept(this);
         removeIndent();
     }
 
-    public void visit(Variable variable) {
+    public void visit(Variable variable, T context) {
         println("Variable:");
         addIndent();
         if(variable.getName() != null) {
@@ -130,20 +131,148 @@ public class OclAstTextPrinter  implements OclAstPrinter {
             println("Type: " + variable.getType().getTypeName());
         }
         if(variable.getInitExpression() != null) {
-            variable.getInitExpression().accept(this);
+            variable.getInitExpression().accept(this, context);
         }
         removeIndent();
     }
 
-    public void visit(Expression expression) {
-        expression.accept(this);
+    public void visit(Expression expression, T context) {
+        expression.accept(this, context);
     }
 
-    public void visit(ExpressionInOcl expressionInOcl) {
-        expressionInOcl.getBodyExpression().accept(this);
+    public void visit(ExpressionInOcl expressionInOcl, T context) {
+        expressionInOcl.getBodyExpression().accept(this, context);
     }
 
-    public void visit(OclExpression oclExpression) {
-        oclExpression.accept(this);
-    }
+	@Override
+	public void visit(BooleanLiteralExp booleanLiteralExp, T context) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(CallExp callExp, T context) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(ConnectableElement connectableElement, T context) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(FeatureCallExp featureCallExp, T context) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(IfExp ifExp, T context) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(IntegerLiteralExp integerLiteralExp, T context) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(IterateExp iterateExp, T context) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(IteratorExp iteratorExp, T context) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(LiteralExp literalExp, T context) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(LoopExp loopExp, T context) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(NamedElement namedElement, T context) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(NavigationCallExp navigationCallExp, T context) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(NumericLiteralExp numericLiteralExp, T context) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(OperationCallExp operationCallExp, T context) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(PropertyCallExp propertyCallExp, T context) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(RealLiteralExp realLiteralExp, T context) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(StateExp stateExp, T context) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(StringLiteralExp stringLiteralExp, T context) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(TupleLiteralExp tupleLiteralExp, T context) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(Type type, T context) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(TypeExp typedExp, T context) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(VariableExp variableExp, T context) {
+		// TODO Auto-generated method stub
+		
+	}
 }

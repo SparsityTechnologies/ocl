@@ -16,6 +16,8 @@ package com.sparsity.ocl.ast;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sparsity.ocl.visitors.VoidOclAstVisitor;
+
 /**
  * Created by aprat on 30/12/15.
  */
@@ -45,7 +47,7 @@ public class OperationCallExp extends FeatureCallExp {
     }
 
     @Override
-    public void accept(OclAstVisitor visitor) {
-        visitor.visit(this);
+    public <A> void accept(VoidOclAstVisitor<A> visitor, A arg){
+        visitor.visit(this, arg);
     }
 }

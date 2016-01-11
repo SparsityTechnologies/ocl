@@ -13,6 +13,8 @@
  limitations under the License.*/
 package com.sparsity.ocl.ast;
 
+import com.sparsity.ocl.visitors.VoidOclAstVisitor;
+
 /**
  * Created by aprat on 15/12/15.
  */
@@ -32,7 +34,7 @@ public class VariableExp extends OclExpression {
     }
 
     @Override
-    public void accept(OclAstVisitor visitor) {
-        visitor.visit(this);
+    public <A> void accept(VoidOclAstVisitor<A> visitor, A arg){
+        visitor.visit(this, arg);
     }
 }

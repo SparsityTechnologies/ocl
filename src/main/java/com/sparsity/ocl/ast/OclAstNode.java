@@ -13,7 +13,7 @@
  limitations under the License.*/
 package com.sparsity.ocl.ast;
 
-import com.sparsity.ocl.ast.printer.OclAstPrinter;
+import com.sparsity.ocl.visitors.VoidOclAstVisitor;
 
 /**
  * Created by aprat on 15/12/15.
@@ -29,9 +29,7 @@ public abstract class OclAstNode {
 
     }
 
-    public abstract void accept(OclAstPrinter printer);
-
-    public abstract void accept(OclAstVisitor visitor);
+    public  abstract <A> void accept(VoidOclAstVisitor<A> visitor, A arg);
 
     public String getNodeType() {
         return nodeType;

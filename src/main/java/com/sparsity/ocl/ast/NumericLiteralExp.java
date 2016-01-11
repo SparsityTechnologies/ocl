@@ -13,13 +13,15 @@
  limitations under the License.*/
 package com.sparsity.ocl.ast;
 
+import com.sparsity.ocl.visitors.VoidOclAstVisitor;
+
 /**
  * Created by aprat on 5/01/16.
  */
 public class NumericLiteralExp extends LiteralExp {
 
     @Override
-    public void accept(OclAstVisitor visitor) {
-        visitor.visit(this);
+    public <A> void accept(VoidOclAstVisitor<A> visitor, A arg){
+        visitor.visit(this, arg);
     }
 }

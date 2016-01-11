@@ -1,9 +1,0 @@
-context System::SingleShortestPath(
-personId1: String,
-personId2: String
-) : Integer
-body:
-let person1:Person = Person.allInstances()->select(p| p.code = personId1) in
-let person2:Person = Person.allInstances()->select(p| p.code = personId2) in
-
-p1.shortestPath(p2)

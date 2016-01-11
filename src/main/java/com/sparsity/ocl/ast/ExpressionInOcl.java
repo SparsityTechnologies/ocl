@@ -14,6 +14,7 @@
 package com.sparsity.ocl.ast;
 
 import com.sparsity.ocl.ast.printer.OclAstPrinter;
+import com.sparsity.ocl.visitors.VoidOclAstVisitor;
 
 
 
@@ -42,7 +43,7 @@ public class ExpressionInOcl extends Expression {
     }
 
     @Override
-    public void accept(OclAstVisitor visitor) {
-        visitor.visit(this);
+    public <A> void accept(VoidOclAstVisitor<A> visitor, A arg) {
+        visitor.visit(this, arg);
     }
 }

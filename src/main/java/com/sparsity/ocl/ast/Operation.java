@@ -14,6 +14,7 @@
 package com.sparsity.ocl.ast;
 
 import com.sparsity.ocl.ast.printer.OclAstPrinter;
+import com.sparsity.ocl.visitors.VoidOclAstVisitor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,13 +91,7 @@ public class Operation extends OclAstNode {
     }
 
     @Override
-    public void accept(OclAstPrinter printer) {
-        System.err.println("Unimplemented visitor");
-        assert false;
-    }
-
-    @Override
-    public void accept(OclAstVisitor visitor) {
-        visitor.visit(this);
+    public <A> void accept(VoidOclAstVisitor<A> visitor, A arg) {
+        visitor.visit(this, arg);
     }
 }

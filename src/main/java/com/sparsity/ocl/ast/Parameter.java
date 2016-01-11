@@ -14,6 +14,7 @@
 package com.sparsity.ocl.ast;
 
 import com.sparsity.ocl.ast.printer.OclAstPrinter;
+import com.sparsity.ocl.visitors.VoidOclAstVisitor;
 
 /**
  * Created by aprat on 16/12/15.
@@ -40,7 +41,7 @@ public class Parameter extends NamedElement {
     }
 
     @Override
-    public void accept(OclAstVisitor visitor) {
-        visitor.visit(this);
+    public <A> void accept(VoidOclAstVisitor<A> visitor, A arg){
+        visitor.visit(this, arg);
     }
 }
