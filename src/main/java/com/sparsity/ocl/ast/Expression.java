@@ -13,20 +13,10 @@
  limitations under the License.*/
 package com.sparsity.ocl.ast;
 
-import com.sparsity.ocl.ast.printer.OclAstPrinter;
-import com.sparsity.ocl.visitors.VoidOclAstVisitor;
-
 /**
  * Created by aprat on 16/12/15.
  */
-public class Expression extends OclAstNode {
+public abstract class Expression extends OclAstNode {
 
-    public void accept( OclAstPrinter printer ) {
-        printer.visit(this);
-    }
-
-    @Override
-    public <A> void accept(VoidOclAstVisitor<A> visitor, A arg){
-        visitor.visit(this, arg);
-    }
+    
 }

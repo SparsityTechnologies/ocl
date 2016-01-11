@@ -41,8 +41,6 @@ public interface GenericOclAstVisitor<A, T> {
 
 	public A visit(Constraint constraint, T context);
 
-	public A visit(Expression expression, T context);
-
 	public A visit(ExpressionInOcl expressionInOcl, T context);
 
 	public A visit(FeatureCallExp featureCallExp, T context);

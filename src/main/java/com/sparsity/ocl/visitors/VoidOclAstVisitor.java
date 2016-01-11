@@ -57,8 +57,6 @@ public interface VoidOclAstVisitor<T> {
 
     public void visit(Constraint constraint, T context);
 
-    public void visit(Expression expression, T context);
-
     public void visit(ExpressionInOcl expressionInOcl, T context);
 
     public void visit(FeatureCallExp featureCallExp, T context);
