@@ -13,7 +13,6 @@
  limitations under the License.*/
 package com.sparsity.ocl.ast;
 
-import com.sparsity.ocl.ast.printer.OclAstPrinter;
 import com.sparsity.ocl.visitors.VoidOclAstVisitor;
 
 /**

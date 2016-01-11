@@ -13,11 +13,10 @@
  limitations under the License.*/
 package com.sparsity.ocl.ast;
 
-import com.sparsity.ocl.ast.printer.OclAstPrinter;
-import com.sparsity.ocl.visitors.VoidOclAstVisitor;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import com.sparsity.ocl.visitors.VoidOclAstVisitor;
 
 /**
  * Created by aprat on 16/12/15.

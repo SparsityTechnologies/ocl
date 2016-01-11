@@ -15,59 +15,197 @@ package com.sparsity.ocl.ast.printer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparsity.ocl.ast.*;
+import com.sparsity.ocl.visitors.VoidOclAstVisitor;
 
 /**
  * Created by aprat on 17/12/15.
  */
-public class OclAstJsonPrinter implements OclAstPrinter {
-    String text = null;
+public class OclAstJsonPrinter<A> implements VoidOclAstVisitor<A> {
+	String text = null;
 
-    public OclAstJsonPrinter() {
-        text = new String();
-    }
+	public OclAstJsonPrinter() {
+		text = new String();
+	}
 
-    public String getText() {
-        return text;
-    }
+	public String getText() {
+		return text;
+	}
 
-    public void visit(Operation operation) {
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            text = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(operation);
-        } catch(Exception e ) {
+	@Override
+	public void visit(BooleanLiteralExp booleanLiteralExp, A context) {
+		// TODO Auto-generated method stub
 
-        }
-    }
+	}
 
-    public void visit(Constraint constraint) {
+	@Override
+	public void visit(CallExp callExp, A context) {
+		// TODO Auto-generated method stub
 
-    }
+	}
 
-    public void visit(Parameter parameter) {
+	@Override
+	public void visit(ConnectableElement connectableElement, A context) {
+		// TODO Auto-generated method stub
 
-    }
+	}
 
-    public void visit(TypedElement typedElement) {
+	@Override
+	public void visit(Constraint constraint, A context) {
+		// TODO Auto-generated method stub
 
-    }
+	}
 
-    public void visit(LetExpression letExpression) {
+	@Override
+	public void visit(ExpressionInOcl expressionInOcl, A context) {
+		// TODO Auto-generated method stub
 
-    }
+	}
 
-    public void visit(Variable variable) {
+	@Override
+	public void visit(FeatureCallExp featureCallExp, A context) {
+		// TODO Auto-generated method stub
 
-    }
+	}
 
-    public void visit(Expression expression) {
+	@Override
+	public void visit(IfExp ifExp, A context) {
+		// TODO Auto-generated method stub
 
-    }
+	}
 
-    public void visit(ExpressionInOcl expressionInOcl) {
+	@Override
+	public void visit(IntegerLiteralExp integerLiteralExp, A context) {
+		// TODO Auto-generated method stub
 
-    }
+	}
 
-    public void visit(OclExpression oclExpression) {
+	@Override
+	public void visit(IterateExp iterateExp, A context) {
+		// TODO Auto-generated method stub
 
-    }
+	}
+
+	@Override
+	public void visit(IteratorExp iteratorExp, A context) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void visit(LetExpression letExpression, A context) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void visit(LiteralExp literalExp, A context) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void visit(LoopExp loopExp, A context) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void visit(NamedElement namedElement, A context) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void visit(NavigationCallExp navigationCallExp, A context) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void visit(NumericLiteralExp numericLiteralExp, A context) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void visit(Operation operation, A context) {
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			text = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(operation);
+		} catch (Exception e) {
+
+		}
+	}
+
+	@Override
+	public void visit(OperationCallExp operationCallExp, A context) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void visit(Parameter parameter, A context) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void visit(PropertyCallExp propertyCallExp, A context) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void visit(RealLiteralExp realLiteralExp, A context) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void visit(StateExp stateExp, A context) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void visit(StringLiteralExp stringLiteralExp, A context) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void visit(TupleLiteralExp tupleLiteralExp, A context) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void visit(Type type, A context) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void visit(TypedElement typedElement, A context) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void visit(TypeExp typedExp, A context) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void visit(Variable variable, A context) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void visit(VariableExp variableExp, A context) {
+		// TODO Auto-generated method stub
+
+	}
 }

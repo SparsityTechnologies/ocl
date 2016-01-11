@@ -13,7 +13,6 @@
  limitations under the License.*/
 package com.sparsity.ocl.ast;
 
-import com.sparsity.ocl.ast.printer.OclAstPrinter;
 import com.sparsity.ocl.visitors.VoidOclAstVisitor;
 
 /**
@@ -21,27 +20,23 @@ import com.sparsity.ocl.visitors.VoidOclAstVisitor;
  */
 public class Parameter extends NamedElement {
 
-    protected Type type;
+	protected Type type;
 
-    public Parameter(String name, Type type)  {
-        super(name);
-        this.type = type;
-    }
+	public Parameter(String name, Type type) {
+		super(name);
+		this.type = type;
+	}
 
-    public void accept(OclAstPrinter printer) {
-        printer.visit(this);
-    }
+	public Type getType() {
+		return type;
+	}
 
-    public Type getType() {
-        return type;
-    }
+	public void setType(Type type) {
+		this.type = type;
+	}
 
-    public void setType(Type type) {
-        this.type = type;
-    }
-
-    @Override
-    public <A> void accept(VoidOclAstVisitor<A> visitor, A arg){
-        visitor.visit(this, arg);
-    }
+	@Override
+	public <A> void accept(VoidOclAstVisitor<A> visitor, A arg) {
+		visitor.visit(this, arg);
+	}
 }

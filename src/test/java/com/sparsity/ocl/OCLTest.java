@@ -1,14 +1,23 @@
 package com.sparsity.ocl;
 
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.io.Writer;
+
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.BaseErrorListener;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.RecognitionException;
+import org.antlr.v4.runtime.Recognizer;
+import org.junit.Test;
+
 import com.sparsity.ocl.ast.Operation;
 import com.sparsity.ocl.ast.printer.OclAstJsonPrinter;
-import org.antlr.v4.runtime.*;
-import org.junit.Test;
-import static org.junit.Assert.assertEquals;
-import com.sparsity.ocl.*;
-
-import java.io.*;
 
 /**
  * Created by aprat on 14/12/15.
@@ -57,8 +66,8 @@ public class OCLTest {
         OCLParser.OclStatementContext oclStatement = parser.oclStatement();
         OCLASTGeneratorVisitor visitor = new OCLASTGeneratorVisitor();
         Operation operation = (Operation)visitor.visitOclStatement(oclStatement);
-        OclAstJsonPrinter textPrinter = new OclAstJsonPrinter();
-        textPrinter.visit(operation);
+        OclAstJsonPrinter<?> textPrinter = new OclAstJsonPrinter<Object>();
+        textPrinter.visit(operation, null);
         System.out.println(textPrinter.getText());
     }
 

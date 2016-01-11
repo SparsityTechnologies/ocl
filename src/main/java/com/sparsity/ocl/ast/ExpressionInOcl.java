@@ -13,7 +13,6 @@
  limitations under the License.*/
 package com.sparsity.ocl.ast;
 
-import com.sparsity.ocl.ast.printer.OclAstPrinter;
 import com.sparsity.ocl.visitors.VoidOclAstVisitor;
 
 
@@ -28,10 +27,6 @@ public class ExpressionInOcl extends Expression {
 
     public ExpressionInOcl( OclExpression bodyExpression) {
         this.bodyExpression = bodyExpression;
-    }
-
-    public void accept(OclAstPrinter printer) {
-        printer.visit(this);
     }
 
     public OclExpression getBodyExpression() {
