@@ -16,6 +16,22 @@ package com.sparsity.ocl.ast;
 /**
  * Created by aprat on 15/12/15.
  */
-public class IterateExp {
+public class IterateExp extends LoopExp{
 
+	private Variable result;
+	
+	public IterateExp(OclExpression body, Variable result) {
+		super(body);
+		this.result = result;
+	}
+
+	public Variable getResult() {
+		return result;
+	}
+
+	public void setResult(Variable result) {
+		this.result = result;
+	}
+
+	
 }
